@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Subscribe to Crypto Price Updates</h1>
-    <form action="/subscribe" method="post">
+    <form action="https://<your-backend-url>/subscribe" method="post" target="hidden_iframe">
         <label for="email">Phone Number (Email):</label><br>
         <input type="email" id="email" name="email"><br>
         <label for="cryptos">Cryptocurrencies:</label><br>
@@ -14,5 +14,6 @@
         <input type="checkbox" id="dogecoin" name="cryptos" value="dogecoin"> Dogecoin<br><br>
         <input type="submit" value="Subscribe">
     </form>
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
 </body>
 </html>
