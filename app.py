@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import smtplib
 from email.message import EmailMessage
+import boto3
 
 app = Flask(__name__)
 
@@ -31,8 +32,39 @@ def subscribe():
     subject = "Crypto Price Updates Subscription"
     body = f"You have subscribed to updates for: {', '.join(cryptos)}"
     
+    # Store user data in DynamoDB (or any other database)
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('CryptoWatcherSubscribers')
+    table.put_item(
+        Item={
+            'email': email,
+            'cryptos': cryptos
+        }
+    )
+
     send_email(email, subject, body)
     return "Subscription successful!", 200
+
+@app.route('/unsubscribe', methods=['POST'])
+def unsubscribe():
+    data = request.get_json()
+    email = data.get('email')
+    if not email:
+        return "Missing email field", 400
+
+    # Remove user data from DynamoDB (or any other database)
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('CryptoWatcherSubscribers')
+    response = table.delete_item(
+        Key={
+            'email': email
+        }
+    )
+
+    subject = "Crypto Price Updates Unsubscription"
+    body = "You have been unsubscribed from crypto price updates."
+    send_email(email, subject, body)
+    return "Unsubscription successful!", 200
 
 if __name__ == '__main__':
     app.run(debug=True)
