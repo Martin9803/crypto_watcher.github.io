@@ -1,12 +1,12 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, jsonify
 import smtplib
 from email.message import EmailMessage
 
 app = Flask(__name__)
 
 # Email setup
-sender_email = 'cryptowatcher2023@gmail.com'
-app_key = 'ktvtnuazhwoxruvl'
+sender_email = 'Cryptowatcher2023@gmail.com'
+app_key = 'your_app_password_here'
 
 def send_email(to_email, subject, body):
     msg = EmailMessage()
@@ -20,10 +20,6 @@ def send_email(to_email, subject, body):
     server.login(sender_email, app_key)
     server.send_message(msg)
     server.quit()
-
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
