@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Email setup
 sender_email = 'cryptowatcher2023@gmail.com'
-app_key = 'your_app_password_here'
+app_key = 'ktvtnuazhwoxruvl'
 
 def send_email(to_email, subject, body):
     msg = EmailMessage()
