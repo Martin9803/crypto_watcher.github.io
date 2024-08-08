@@ -2,12 +2,13 @@ from flask import Flask, request, jsonify
 import smtplib
 from email.message import EmailMessage
 import boto3
+import os
 
 app = Flask(__name__)
 
 # Email setup
 sender_email = 'Cryptowatcher2023@gmail.com'
-app_key = 'your_app_password_here'
+app_key = 'ktvtnuazhwoxruvl'
 
 def send_email(to_email, subject, body):
     msg = EmailMessage()
@@ -67,4 +68,5 @@ def unsubscribe():
     return "Unsubscription successful!", 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
